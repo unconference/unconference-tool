@@ -51,3 +51,7 @@ env/
 # webpack-built files
 /unconferencetool/static/build/
 /unconferencetool/webpack/manifest.json
+
+# IDE and OS Files
+.DS_Store
+.idea
