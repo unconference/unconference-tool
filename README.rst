@@ -5,6 +5,14 @@ Unconference Tool
 A tool for helping to organise unconferences
 
 
+Pre-requisites
+--------------
+
+Before working on this project, ensure your development environment is configured properly.
+
+You can follow `this setup guide <docs/dev_setup.md>`_.
+
+
 Quickstart
 ----------
 
@@ -19,7 +27,7 @@ Run the following commands to bootstrap your environment ::
 
     git clone https://github.com/mattstibbs/unconferencetool
     cd unconferencetool
-    pip install -r requirements/dev.txt
+    pipenv install --dev
     npm install
     npm start  # run the webpack dev server and flask server using concurrently
 
