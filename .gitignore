@@ -56,3 +56,6 @@ env/
 # IDE and OS Files
 .DS_Store
 .idea
+
+# Environment Variables
+.env
