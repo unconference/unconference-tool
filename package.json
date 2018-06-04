@@ -15,7 +15,9 @@
   },
   "author": "Unconference Team",
   "license": "BSD-3-Clause",
-  "engines": { "node" : ">=4" },
+  "engines": {
+    "node": ">=4"
+  },
   "bugs": {
     "url": "https://github.com/mattstibbs/unconferencetool/issues"
   },
@@ -23,7 +25,8 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "npm": "^6.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
