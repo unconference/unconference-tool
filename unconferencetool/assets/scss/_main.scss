@@ -1,0 +1,14 @@
+body {
+  font-family: 'Source Sans Pro', sans-serif; 
+  margin: 0;
+  line-height: 1.4;
+  font-size: 14px;
+}
+
+a {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+}
+

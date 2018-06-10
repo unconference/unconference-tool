@@ -1,18 +1,28 @@
-# Config file for automatic testing at travis-ci.org
-sudo: false  # http://docs.travis-ci.com/user/migrating-from-legacy/
 language: python
-env:
-- FLASK_APP=autoapp.py FLASK_DEBUG=1
 python:
-  - 3.6
+  - "3.6"
+cache: pip
+
 install:
   - pip install pipenv
   - pipenv install --dev
-  - nvm install 6.10
-  - nvm use 6.10
-  - npm install
-before_script:
-  - npm run lint
-  - npm run build
-  - flask lint
-script: pipenv run flask test
+before_script: flask assets build
+script: flask test
+
+sudo: false
+notifications:
+  email: false
+env:
+  - FLASK_APP=app.py FLASK_ENV=development
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  skip-cleanup: true
+  app:
+    master: unconference-tool
+    development: unconference-tool-dev
+  on:
+    branch: 
+      - master
+      - development

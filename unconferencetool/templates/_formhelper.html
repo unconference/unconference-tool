@@ -1,0 +1,26 @@
+{%- macro render_form(form) %}
+            {{ form.hidden_tag() }}
+{%- for field in form %}
+    {%- if field.errors and field.type != 'HiddenField' and field.type != 'CSRFTokenField' %}
+        {%- if field.type == "BooleanField" %}
+            <dt class="error">
+              {{ field }}
+              {{ field.label }} <span>- {% for error in field.errors %}{{ error }} {% endfor %}</span>
+            </dt>
+        {%- else %}
+            <dt class="error">{{ field.label }} <span>- {% for error in field.errors %}{{ error }} {% endfor %}</span></dt>
+            <dl class="error">{{ field }}</dl>
+        {%- endif %}
+    {%- elif field.type != 'HiddenField' and field.type != 'CSRFTokenField' %}
+        {%- if field.type == "BooleanField" %}
+            <dt>
+              {{ field }}
+              {{ field.label }}
+            </dt>
+        {%- else %}
+            <dt>{{ field.label }}</dt>
+            <dl>{{ field }}</dl>
+        {%- endif %}
+    {%- endif %}
+{%- endfor %}
+{%- endmacro %}
