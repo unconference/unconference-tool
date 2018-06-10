@@ -21,8 +21,8 @@ deploy:
   skip-cleanup: true
   app:
     master: unconference-tool
-    development: unconference-tool-dev
+    develop: unconference-tool-dev
   on:
     branch: 
       - master
-      - development
+      - develop
