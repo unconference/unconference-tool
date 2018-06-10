@@ -18,7 +18,7 @@ flask-assets = "*"
 gunicorn = "*"
 jsmin = "*"
 libsass = "*"
-psycopg2 = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.6"
