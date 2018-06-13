@@ -21,7 +21,8 @@ def create_app(config_object=False):
     
     app.cli.add_command(commands.test)
 
-    from unconferencetool.model import db, migrate
+    from unconferencetool.model import db, migrate, bcrypt
+    bcrypt.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
 

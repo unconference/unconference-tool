@@ -19,6 +19,7 @@ gunicorn = "*"
 jsmin = "*"
 libsass = "*"
 psycopg2-binary = "*"
+flask-bcrypt = "*"
 
 [requires]
 python_version = "3.6"

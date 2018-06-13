@@ -12,6 +12,7 @@ class Config(object):
     SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', 'default-secret-key')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'error')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    BCRYPT_LOG_ROUNDS = 13
 
 class ProductionConfig(Config):
     pass
@@ -36,4 +37,5 @@ class TestConfig(Config):
     ASSETS_MANIFEST = False
     ASSETS_CACHE = False
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
+    BCRYPT_LOG_ROUNDS = 4  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
     WTF_CSRF_ENABLED = False  # Allows form testing
