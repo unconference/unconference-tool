@@ -27,7 +27,7 @@ class User(db.Model):
 
     unconferences = db.relationship("Unconference_Attendee", back_populates="user", cascade="all, delete, delete-orphan")
     volunteer_assignments = db.relationship("Volunteer_Assignments", back_populates="user", cascade="all, delete, delete-orphan")
-    pitches = db.relationship("Session", back_populates="pitched_by", cascade="all, delete, delete-orphan")
+    pitches = db.relationship("Session", back_populates="pitched_by")
     sessions_attended = db.relationship("Session_Attendee", back_populates="user", cascade="all, delete, delete-orphan")
 
     def __init__(self, email, password=None, **kwargs):
@@ -56,7 +56,7 @@ class Unconference(db.Model):
     twitter_handle = db.Column(db.String(80))
     hashtag = db.Column(db.String(20))
     website = db.Column(db.String(140), nullable=False)
-    email = db.Column(db.String(30), nullable=False)
+    email = db.Column(db.String(130), nullable=False)
     location = db.Column(db.String(140), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     other_info = db.Column(db.Text())

@@ -3,23 +3,23 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[dev-packages]
-pytest = "*"
-WebTest = "*"
-click = "*"
-python-dotenv = "*"
-
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-wtf = "*"
+flask-bcrypt = "*"
 flask-assets = "*"
-gunicorn = "*"
 jsmin = "*"
 libsass = "*"
+gunicorn = "*"
 psycopg2-binary = "*"
-flask-bcrypt = "*"
+
+[dev-packages]
+pytest = "*"
+WebTest = "*"
+python-dotenv = "*"
+factory-boy = "*"
 
 [requires]
 python_version = "3.6"

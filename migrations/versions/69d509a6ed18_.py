@@ -1,4 +1,4 @@
-"""empty message
+"""Initial data model
 
 Revision ID: 69d509a6ed18
 Revises: 
