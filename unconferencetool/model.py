@@ -45,7 +45,7 @@ class User(db.Model):
 
     @property
     def name(self):
-        return '{0} {1}'.format(self.first_name.title(), self.last_name.title())
+        return '{0} {1}'.format(self.given_name.title(), self.family_name.title())
 
 class Unconference(db.Model):
     __tablename__ = 'unconferences'
@@ -124,6 +124,7 @@ class Session(db.Model):
 
 class Session_Attendee(db.Model):
     __tablename__ = 'session_attendees'
+    __table_args__ = (db.UniqueConstraint('session_id', 'user_id', name='_session_user_uc'),)
 
     id = db.Column(db.Integer, primary_key=True)
     share_details = db.Column(db.Boolean, nullable=False, default=False)

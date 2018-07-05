@@ -12,3 +12,17 @@ a {
   }
 }
 
+.selectize-dropdown {
+  .title {
+    display:block;
+  }
+  .background {
+    font-size: 12px;
+    display: block;
+    opacity: 0.5;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

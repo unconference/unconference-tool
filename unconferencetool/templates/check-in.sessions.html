@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block body %}
+
+
+<div style="margin-left:50px">
+<dl>
+    {%- from "_formhelper.html" import render_form %}
+    <form action="{{ url_for('unconference.check_in', unconference=unconference) }}" method="post" name="CheckInForm" id="CheckInForm">
+        {{- render_form(form) }}
+    <dt><input type="submit" value="Check-In"></dt>
+    </form>
+</dl>
+
+<script>
+        $('#user_id').selectize({
+            valueField: 'id',
+            labelField: 'name',
+            searchField: ['name', 'email'],
+            create: false,
+            maxItems: 1,
+            render: {
+                option: function(item, escape) {
+                    return '<div>' +
+                        '<span class="title">' + escape(item.name) + 
+                        '</span>' +
+                        '<span class="background">' + escape(item.email) + '</span>' +
+                    '</div>';
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '{{ url_for('unconference.attendees', unconference=unconference) }}',
+                    data: {"method":"search", "query":query},
+                    type: 'POST',
+                    error: function() {
+                        callback();
+                    },
+                    success: function(res) {
+                        callback(res.users.slice(0, 10));
+                    }
+                });
+            }
+        });
+</script>
+
+<script>
+$("#dddCheckInForm").submit(function(e) {
+
+var url = "path/to/your/script.php"; // the script where you handle the form input.
+
+$.ajax({
+       type: "POST",
+       url: url,
+       data: $("#CheckInForm").serialize(), // serializes the form's elements.
+       success: function(data)
+       {
+           alert(data); // show response from the php script.
+       }
+     });
+
+e.preventDefault(); // avoid to execute the actual submit of the form.
+});
+</script>
+
+</div>
+
+
+{%- endblock %}
