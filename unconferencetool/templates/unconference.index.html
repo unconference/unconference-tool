@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Unconference{% endblock %}
+{% block body %}
+<div class="wrap">
+    <h3>{{ unconference.name }}:</h3>
+    [<a href="{{ url_for('unconference.check_in', unconference=unconference.id) }}">
+        Check-In
+    </a>]
+    [<a href="{{ url_for('sessions.list', unconference=unconference.id) }}">
+        Sessions
+    </a>]
+    [<a href="{{ url_for('unconference.attendees', unconference=unconference.id) }}">
+        Attendees
+    </a>]
+</div>
+{%- endblock %}

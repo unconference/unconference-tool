@@ -21,7 +21,8 @@ def create_app(config_object=False):
     
     app.cli.add_command(commands.test)
 
-    from unconferencetool.model import db, migrate
+    from unconferencetool.model import db, migrate, bcrypt
+    bcrypt.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
 
@@ -40,5 +41,13 @@ def create_app(config_object=False):
         app.add_url_rule(url_rule, import_name, view_func=view, **options)
 
     route_url('/', 'index.hello', methods=['GET','POST'])
+    route_url('/unconferences', 'unconference.list', methods=['GET','POST'])
+    route_url('/unconferences/<unconference>', 'unconference.index', methods=['GET'])
+    route_url('/unconferences/<unconference>/check-in', 'unconference.check_in', methods=['GET','POST'])
+    route_url('/unconferences/<unconference>/attendees', 'unconference.attendees', methods=['GET','POST'])
+    route_url('/unconferences/<unconference>/sessions', 'sessions.list', methods=['GET'])
+    route_url('/unconferences/<unconference>/bulk-sessions', 'unconference.bulk_sessions', methods=['GET'])
+    route_url('/unconferences/<unconference>/sessions/<session>/attendees', 'sessions.attendees', methods=['GET'])
+    route_url('/unconferences/<unconference>/sessions/<session>/check-in', 'unconference.check_in', methods=['GET','POST'])
 
     return app

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %}Unconferences{% endblock %}
+{% block body %}
+<div class="wrap">
+    <h3>Unconferences:</h3>
+    <ul>
+        {% for unconference in unconferences %}
+        <li>
+            <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">
+                    {{ unconference.name }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    <h4>Add unconference</h4>
+    {%- from "_formhelper.html" import render_form %}
+    <form action="{{ url_for('unconference.list') }}" method="post" name="UnconferenceForm" id="UnconferenceForm">
+        <dl>
+            {{- render_form(form) }}
+            <dt><input type="submit" value="Add"></dt>
+        </dl>
+    </form>
+</div>
+{%- endblock %}

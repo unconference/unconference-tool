@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Login{% endblock %}
 {% block body %}
-        <div style="margin-left:50px">
+        <div class="wrap">
             <h1>Login</h1>
             {%- from "_formhelper.html" import render_form %}
             <form action="{{ url_for('index.hello') }}" method="post" name="RegisterForm" id="RegisterForm">
