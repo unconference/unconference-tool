@@ -1,8 +1,8 @@
 """Initial data model
 
-Revision ID: 69d509a6ed18
+Revision ID: cdb845395310
 Revises: 
-Create Date: 2018-06-14 11:56:26.115539
+Create Date: 2018-07-08 01:03:11.493683
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '69d509a6ed18'
+revision = 'cdb845395310'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,7 +25,7 @@ def upgrade():
     sa.Column('twitter_handle', sa.String(length=80), nullable=True),
     sa.Column('hashtag', sa.String(length=20), nullable=True),
     sa.Column('website', sa.String(length=140), nullable=False),
-    sa.Column('email', sa.String(length=30), nullable=False),
+    sa.Column('email', sa.String(length=130), nullable=False),
     sa.Column('location', sa.String(length=140), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=False),
     sa.Column('other_info', sa.Text(), nullable=True),
@@ -66,7 +66,8 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['unconference_id'], ['unconferences.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('unconference_id', 'user_id', name='_unconference_user_uc')
     )
     op.create_table('volunteer_roles',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -83,7 +84,8 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['session_id'], ['sessions.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('session_id', 'user_id', name='_session_user_uc')
     )
     op.create_table('volunteer_assignemnts',
     sa.Column('id', sa.Integer(), nullable=False),

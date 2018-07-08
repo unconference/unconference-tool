@@ -70,6 +70,7 @@ class Unconference(db.Model):
 
 class Unconference_Attendee(db.Model):
     __tablename__ = 'unconference_attendees'
+    __table_args__ = (db.UniqueConstraint('unconference_id', 'user_id', name='_unconference_user_uc'),)
 
     id = db.Column(db.Integer, primary_key=True)
     role = db.Column(db.String(10), nullable=False) #Enum "ORG", "VOL", "ATN"

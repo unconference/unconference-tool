@@ -13,10 +13,10 @@ a {
 }
 
 .selectize-dropdown {
-  .title {
-    display:block;
+  & [data-selectable] {
+    padding: 5px 8px;
   }
-  .background {
+  .email {
     font-size: 12px;
     display: block;
     opacity: 0.5;
@@ -25,4 +25,8 @@ a {
     text-overflow: ellipsis;
     overflow: hidden;
   }
+}
+
+.wrap {
+  padding: 10px 25px;
 }

@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block title %}Check-In{% endblock %}
+{% block body %}
+<div class="wrap">
+<h3>
+    <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> -
+    {%- if session %}
+    <a href="{{ url_for('sessions.list', unconference=unconference.id) }}">{{ session.location }}: {{ session.title }}</a> - 
+    {%- endif %}
+    Check-In:
+</h3>
+<dl>
+    {%- from "_formhelper.html" import render_form %}
+    <form action="{{ url_for('unconference.check_in', unconference=unconference.id, session=session_id) }}" method="post" name="CheckInForm" id="CheckInForm">
+        {{- render_form(form) }}
+    <dt><input type="submit" value="Check-In"></dt>
+    </form>
+</dl>
+
+<script>
+    $('#user_id').selectize({
+        valueField: 'id',
+        labelField: 'name',
+        searchField: ['name', 'email'],
+        create: false,
+        maxItems: 1,
+        placeholder: "Start typing name",
+        render: {
+            option: function(item, escape) {
+                return '<div>' +
+                    '<span class="name">' + escape(item.name) + '</span>' +
+                    '<span class="email">' + escape(item.email) + '</span>' +
+                '</div>';
+            },
+            item: function(item, escape) {
+                return '<div>' +
+                    '<span class="name">' + escape(item.name) + '</span> ' +
+                    '<span class="email">&lt;' + escape(item.email) + '&gt;</span>' +
+                '</div>';
+            }
+        },
+        load: function(query, callback) {
+            if (!query.length) return callback();
+            $.ajax({
+                url: '{{ url_for("unconference.attendees", unconference=unconference.id) }}',
+                data: {"method":"search", "query":query},
+                type: 'POST',
+                error: function() {
+                    callback();
+                },
+                success: function(res) {
+                    callback(res.users.slice(0, 40));
+                }
+            });
+        }
+    });
+</script>
+</div>
+{%- endblock %}

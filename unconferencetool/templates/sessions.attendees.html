@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Session Attendees{% endblock %}
+{% block body %}
+<div class="wrap">
+    <h3>
+        <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> - 
+        <a href="{{ url_for('sessions.list', unconference=unconference.id) }}">{{ session.location }}: {{ session.title }}</a> - 
+        Attendees:</h3>
+    <ul>
+        {% for attendee in session.attendees %}
+        <li>
+            {{ attendee.user.name }} &lt;{{ attendee.user.email}}&gt;
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{%- endblock %}
