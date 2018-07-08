@@ -64,7 +64,7 @@ def attendees(unconference):
             output = []
             results = model.Unconference_Attendee.query \
                 .filter(model.Unconference.id == unconference) \
-                .filter((model.User.given_name.like(request.form['query'] + '%')) | (model.User.family_name.like(request.form['query'] + '%'))) \
+                .filter((model.User.given_name.ilike(request.form['query'] + '%')) | (model.User.family_name.ilike(request.form['query'] + '%'))) \
                 .all()
             for attendee in results:
                 output.append({"id": attendee.user.id, "name": attendee.user.name, "email": attendee.user.email})
