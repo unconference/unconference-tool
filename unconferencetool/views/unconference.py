@@ -21,7 +21,7 @@ class UnconferenceForm(FlaskForm):
     other_info = TextAreaField('Other')
 
 class CheckInForm(FlaskForm):
-    session_id = SelectField('Session', [validators.Required()])
+    session_id = HiddenField('Session', [validators.Required()])
     user_id = TextField('Attendee', [validators.Required()])
     share_details = BooleanField('I am happy for my email address to be shared with the other people in this session', [validators.Required()])
 
@@ -56,6 +56,15 @@ class UploadAttendeesForm(FlaskForm):
 def index(unconference):
     Unconference = model.Unconference.query.get(unconference)
     return render_template("unconference.index.html", unconference=Unconference)
+
+def locations(unconference, location=None):
+    Unconference = model.Unconference.query.get(unconference)
+
+    if location != None:
+        Location = model.Location.query.get(location)
+        return render_template("unconference.locations.sessions.html", unconference=Unconference, location=Location)
+
+    return render_template("unconference.locations.html", unconference=Unconference)
 
 def attendees(unconference):
     form = UploadAttendeesForm(CombinedMultiDict((request.files, request.form)))
@@ -94,7 +103,7 @@ def check_in(unconference, session=None):
     sessions = model.Session.query \
         .filter(model.Unconference.id == unconference) \
         .all()
-    form.session_id.choices = [(str(g.id), g.location + ": " + g.title) for g in sessions]
+    form.session_id.choices = [(str(g.id), g.location.name + ": " + g.title) for g in sessions]
 
     Unconference = model.Unconference.query.get(unconference)
 
@@ -131,11 +140,12 @@ def bulk_sessions(unconference):
             .filter(model.Unconference.id == unconference) \
             .all()
     if not sessions:
-        rooms = ["St James", "Westminster", "Shelley", "Wordsworth", "Chaucer", "Keats", "Burns", "Wesley", "Moore", "Rutherford", "Byron", "Abbey"]
+        rooms = ["St James A", "St James B", "Westminster A", "Westminster B", "Shelley", "Wordsworth", "Chaucer", "Keats", "Burns", "Wesley", "Moore", "Rutherford", "Byron", "Abbey"]
         sessions = ["Session 1", "Session 2", "Session 3", "Session 4", "Session 5"]
         for room in rooms:
+            l = model.Location(name=room, unconference=Unconference)
             for session in sessions:
-                s = model.Session(location=room, title=session, unconference=Unconference, start=datetime.datetime.utcnow())
+                s = model.Session(location=l, title=session, unconference=Unconference, start=datetime.datetime.utcnow())
                 model.db.session.add(s)
         model.db.session.commit()
 

@@ -62,6 +62,7 @@ class Unconference(db.Model):
     other_info = db.Column(db.Text())
     created = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
+    locations = db.relationship("Location", back_populates="unconference", cascade="all, delete, delete-orphan")
     sessions = db.relationship("Session", back_populates="unconference", cascade="all, delete, delete-orphan")
     attendees = db.relationship("Unconference_Attendee", back_populates="unconference", cascade="all, delete, delete-orphan")
     volunteer_roles = db.relationship("Volunteer_Role", back_populates="unconference", cascade="all, delete, delete-orphan")
@@ -106,17 +107,30 @@ class Volunteer_Assignments(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship("User", back_populates="volunteer_assignments")
 
+class Location(db.Model):
+    __tablename__ = 'locations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(140))
+
+    unconference_id = db.Column(db.Integer, db.ForeignKey('unconferences.id'), nullable=False)
+    unconference = db.relationship("Unconference", back_populates="locations")
+
+    sessions = db.relationship("Session", back_populates="location")
+
 class Session(db.Model):
     __tablename__ = 'sessions'
 
     id = db.Column(db.Integer, primary_key=True)
     start = db.Column(db.DateTime, nullable=False)
-    location = db.Column(db.String(30), nullable=False)
     title = db.Column(db.String(140), nullable=False)
     notes_url = db.Column(db.String(140))
 
     unconference_id = db.Column(db.Integer, db.ForeignKey('unconferences.id'), nullable=False)
     unconference = db.relationship("Unconference", back_populates="sessions")
+
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=False)
+    location = db.relationship("Location", back_populates="sessions")
 
     pitched_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     pitched_by = db.relationship("User", back_populates="pitches")

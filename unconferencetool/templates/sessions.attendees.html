@@ -4,14 +4,40 @@
 <div class="wrap">
     <h3>
         <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> - 
-        <a href="{{ url_for('sessions.list', unconference=unconference.id) }}">{{ session.location }}: {{ session.title }}</a> - 
-        Attendees:</h3>
-    <ul>
-        {% for attendee in session.attendees %}
-        <li>
+        <a href="{{ url_for('unconference.locations', unconference=unconference.id, location=session.location.id) }}">{{ session.location.name }}</a> - 
+        {{ session.title }}:
+    </h3>
+    <ul class="check-in-nav">
+        <li><a href="{{ url_for('unconference.check_in', unconference=unconference.id, session=session.id) }}">
+            Check-In
+        </a></li>
+        <li class="active"><a href="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}">
+            Attendees
+        </a></li>
+    </ul>
+    <ul class="attendees">
+        {%- for attendee in session.attendees %}
+        <li user-id="{{ attendee.user.id }}">
             {{ attendee.user.name }} &lt;{{ attendee.user.email}}&gt;
         </li>
-        {% endfor %}
+        {%- endfor %}
     </ul>
 </div>
+
+{%- from "_formhelper.html" import render_form %}
+<form action="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}" method="post" name="RemoveSessionAttendeeForm" id="RemoveSessionAttendeeForm">
+    {{- render_form(form) }}
+</form>
+<script>
+$('.attendees li').each(function(i, elem){
+    $(elem).attr("user-text", $(elem).text().trim());
+}).append('[<a href="javascript:void(0);">Remove</a>]');
+$('.attendees li a').click(function(e){
+    parent = $(this).parent()
+    if (confirm("Are you sure you want to remove:\n" + parent.attr("user-text"))) {
+        $("#user_id").val(parent.attr("user-id"));
+        $("#RemoveSessionAttendeeForm").submit();
+    }
+});
+</script>
 {%- endblock %}

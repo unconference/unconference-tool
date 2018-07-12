@@ -1,12 +1,16 @@
 {% extends "layout.html" %}
-{% block title %}Sessions{% endblock %}
+{% block title %}Locations{% endblock %}
 {% block body %}
 <div class="wrap">
-    <h3><a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> - Sessions:</h3>
+    <h3>
+        <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> - 
+        <a href="{{ url_for('unconference.locations', unconference=unconference.id) }}">{{ location.name}}</a> - 
+        Sessions:
+    </h3>
     <ul>
-        {% for session in unconference.sessions %}
+        {% for session in location.sessions %}
         <li>
-            {{ session.location.name }}: {{ session.title }}
+            {{ session.title }}
             [<a href="{{ url_for('unconference.check_in', unconference=unconference.id, session=session.id) }}">
                 Check-In
             </a>]
@@ -16,9 +20,5 @@
         </li>
         {% endfor %}
     </ul>
-    <h4>Bulk Add Sessions</h4>
-    [<a href="{{ url_for('unconference.bulk_sessions', unconference=unconference.id) }}">
-        Add Sessions
-    </a>]
 </div>
 {%- endblock %}

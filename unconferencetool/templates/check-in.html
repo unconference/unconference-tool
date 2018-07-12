@@ -5,10 +5,18 @@
 <h3>
     <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> -
     {%- if session %}
-    <a href="{{ url_for('sessions.list', unconference=unconference.id) }}">{{ session.location }}: {{ session.title }}</a> - 
+    <a href="{{ url_for('unconference.locations', unconference=unconference.id, location=session.location.id) }}">{{ session.location.name }}</a> - 
+    {{ session.title }}
     {%- endif %}
-    Check-In:
 </h3>
+<ul class="check-in-nav">
+    <li class="active"><a href="{{ url_for('unconference.check_in', unconference=unconference.id, session=session.id) }}">
+        Check-In
+    </a></li>
+    <li><a href="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}">
+        Attendees
+    </a></li>
+</ul>
 <dl>
     {%- from "_formhelper.html" import render_form %}
     <form action="{{ url_for('unconference.check_in', unconference=unconference.id, session=session_id) }}" method="post" name="CheckInForm" id="CheckInForm">

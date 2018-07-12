@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Locations{% endblock %}
+{% block body %}
+<div class="wrap">
+    <h3><a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> - Locations:</h3>
+    <ul>
+        {% for location in unconference.locations %}
+        <li>
+            <a href="{{ url_for('unconference.locations', unconference=unconference.id, location=location.id) }}">
+                {{location.name}}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{%- endblock %}
