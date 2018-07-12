@@ -4,9 +4,9 @@
 <div class="wrap">
     <h3>
         <a class="unconference" href="{{ url_for('unconference.index', unconference=unconference.id) }}"><img src="/static/images/one-team-logo.svg"></a>
-        <span class="title">Locations</span>
+        <span class="title">Select Location</span>
     </h3>
-    <ul>
+    <ul class="locations">
         {% for location in unconference.locations %}
         <li>
             <a href="{{ url_for('unconference.locations', unconference=unconference.id, location=location.id) }}">

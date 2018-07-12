@@ -5,9 +5,9 @@
     <h3>
         <a class="unconference" href="{{ url_for('unconference.index', unconference=unconference.id) }}"><img src="/static/images/one-team-logo.svg"></a>
         <a class="location" href="{{ url_for('unconference.locations', unconference=unconference.id) }}">{{ location.name }}</a>
-        <span class="title">Sessions</span>
+        <span class="title">Select Session</span>
     </h3>
-    <ul>
+    <ul class="sessions">
         {% for session in location.sessions %}
         <li>
             <a href="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}">

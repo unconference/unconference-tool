@@ -22,7 +22,7 @@ class CheckInForm(FlaskForm):
             .filter_by(user_id=self.user_id.data) \
             .first()
         if attendee:
-            self.user_id.errors.append('This Attendee has already been checked-in to this session')
+            self.user_id.errors.append('This Attendee has already been checked-in to the session')
             return False
 
         attendee = model.Unconference_Attendee.query \

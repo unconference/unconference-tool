@@ -27,10 +27,6 @@ a {
   }
 }
 
-.active {
-  font-weight: bold;
-}
-
 .wrap {
   //padding: 10px 25px;
   h3 {
@@ -38,6 +34,7 @@ a {
     background-color: #495c68;
     position: relative;
     height: 100px;
+    margin: 0;
     img {
       height: 100px;
     }
@@ -49,16 +46,158 @@ a {
     .location {
       color: #fff;
       text-decoration: none;
-      font-size: 1.5em;
+      font-size: 1.6em;
       display: block;
       &:hover {
-        text-decoration: underline;
+        color: #f24388;
+      }
+      &::after {
+        content: " (change)";
+        font-size: 0.5em;
+        color:#46b8da;
+        vertical-align: middle;
+        float: right;
+        padding-top: 9px;
       }
     }
     .session {
       color: #fff;
       text-decoration: none;
       display: block;
+      font-size: 1.1em;
+      &:hover {
+        color: #f24388;
+      }
+      &::after {
+        content: " (change)";
+        font-size: 0.7em;
+        color:#46b8da;
+        vertical-align: middle;
+        float: right;
+        padding-top: 2px;
+      }
+    }
+    .title {
+      color: #cacaca;
+      display: block;
+      font-size: 1em;
+    }
+  }
+}
+
+.check-in-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  li {
+    display: inline;
+    a {
+      float: left;
+      display: inline-block;
+      text-align: center;
+      background-color: #f96c4e;
+      width: 50%;
+      padding: 8px;
+      font-size: 1.2em;
+      color: #fff;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+    &.active a {
+      background-color: #f24388;
+      font-weight: bold;
+    }
+  }
+}
+
+.attendees {
+  font-size: 1.2em;
+  margin-right: 20px;
+  a {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+    float: right;
+  }
+  li {
+    padding: 2px 0;
+  }
+}
+
+.sessions {
+  margin: 20px 0 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1.6em;
+  font-weight: bold;
+  text-align: center;
+  a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    margin: 10px 25px;
+    padding: 5px 0;
+    border: 2px solid #f24388;
+    &:hover{
+      background: #f96c4e;
+      color: #fff;
+    }
+  }
+}
+
+.locations {
+  margin: 20px 0 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1.6em;
+  font-weight: bold;
+  text-align: center;
+  a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    margin: 10px 25px;
+    padding: 5px 0;
+    border: 2px solid #f24388;
+    &:hover{
+      background: #f96c4e;
+      color: #fff;
+    }
+  }
+}
+
+#CheckInForm {
+  font-size: 1.2em;
+  padding: 10px 25px;
+  dt.share_details {
+    float: left;
+    width: 80%;
+  }
+  dl.share_details {
+    width: 20%;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    & input {
+      height: 20px;
+      width: 20px;
+    }
+  }
+  .submit {
+    text-align: center;
+    clear: both;
+    margin-top: 35px;
+  }
+  dt.user_id {
+    display: none;
+  }
+  dt.user_id.error {
+    display: inline !important;
+    color: red;
+    font-weight: bold;
+    & label {
+      display: none;
     }
   }
 }
