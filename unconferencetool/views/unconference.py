@@ -40,8 +40,8 @@ class CheckInForm(FlaskForm):
             return False
 
         attendee = model.Unconference_Attendee.query \
-            .filter(model.User.id == self.user_id.data) \
-            .filter(model.Unconference.id == model.Session.query.get(self.session_id.data).unconference.id) \
+            .filter_by(user_id=self.user_id.data) \
+            .filter_by(unconference_id=model.Session.query.get(self.session_id.data).unconference.id) \
             .first()
         if not attendee:
             self.user_id.errors.append('Invalid Attendee')
@@ -72,7 +72,7 @@ def attendees(unconference):
         if request.form['method'] == 'search':
             output = []
             results = model.Unconference_Attendee.query \
-                .filter(model.Unconference.id == unconference) \
+                .filter_by(unconference_id=unconference) \
                 .filter((model.User.given_name.ilike(request.form['query'] + '%')) | (model.User.family_name.ilike(request.form['query'] + '%'))) \
                 .all()
             for attendee in results:
@@ -101,7 +101,7 @@ def attendees(unconference):
 def check_in(unconference, session=None):
     form = CheckInForm(request.form)
     sessions = model.Session.query \
-        .filter(model.Unconference.id == unconference) \
+        .filter_by(unconference_id=unconference) \
         .all()
     form.session_id.choices = [(str(g.id), g.location.name + ": " + g.title) for g in sessions]
 
@@ -139,7 +139,6 @@ def bulk_sessions(unconference):
     sessions = model.Session.query \
             .filter_by(unconference_id=unconference) \
             .all()
-    print(sessions)
     if not sessions:
         rooms = ["St James A", "St James B", "Westminster A", "Westminster B", "Shelley", "Wordsworth", "Chaucer", "Keats", "Burns", "Wesley", "Moore", "Rutherford", "Byron", "Abbey"]
         sessions = ["Session 1", "Session 2", "Session 3", "Session 4", "Session 5"]
