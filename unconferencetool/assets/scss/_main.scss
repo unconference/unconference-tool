@@ -38,13 +38,13 @@ a {
     background-color: #495c68;
     position: relative;
     height: 100px;
+    img {
+      height: 100px;
+    }
     .unconference {
       float: left;
       display: inline-block;
       padding-right: 10px;
-      img {
-        height: 100px;
-      }
     }
     .location {
       color: #fff;
