@@ -32,7 +32,10 @@ def locations(unconference, location=None):
     Unconference = model.Unconference.query.get(unconference)
 
     if location != None:
-        Location = model.Location.query.get(location)
+        Location = model.Location.query \
+            .filter_by(unconference_id=unconference) \
+            .filter_by(id=location) \
+            .first()
         return render_template("unconference.locations.sessions.html", unconference=Unconference, location=Location)
 
     return render_template("unconference.locations.html", unconference=Unconference)

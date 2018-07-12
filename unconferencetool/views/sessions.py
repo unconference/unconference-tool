@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import render_template, request, jsonify, redirect, url_for
+from flask import render_template, request, jsonify, redirect, url_for, abort
 import unconferencetool.model as model
 
 from flask_wtf import FlaskForm
@@ -63,10 +63,16 @@ def list(unconference):
 
 def check_in(unconference, session):
     form = CheckInForm(request.form)
-    form.session_id.data = session
 
     Unconference = model.Unconference.query.get(unconference)
-    Session = model.Session.query.get(session)
+    Session = model.Session.query \
+        .filter_by(unconference_id=unconference) \
+        .filter_by(id=session) \
+        .first()
+    if Session == None:
+        abort(404)
+
+    form.session_id.data = Session.id
 
     if request.method == "POST" and form.validate():
         attendee = model.Session_Attendee()
@@ -80,10 +86,16 @@ def check_in(unconference, session):
 
 def attendees(unconference, session):
     form = RemoveSessionAttendeeForm(request.form)
-    form.session_id.data = session
 
-    Session = model.Session.query.get(session)
     Unconference = model.Unconference.query.get(unconference)
+    Session = model.Session.query \
+        .filter_by(unconference_id=unconference) \
+        .filter_by(id=session) \
+        .first()
+    if Session == None:
+        abort(404)
+
+    form.session_id.data = Session.id
 
     if request.method == "POST" and form.validate():
         attendee = model.Session_Attendee.query \

@@ -12,12 +12,17 @@ a {
   }
 }
 
+.selectize-dropdown, .selectize-input, .selectize-input input {
+  font-size: 18px !important;
+  line-height: 23px;
+}
+
 .selectize-dropdown {
   & [data-selectable] {
     padding: 5px 8px;
   }
   .email {
-    font-size: 12px;
+    font-size: 0.9em;
     display: block;
     opacity: 0.5;
     white-space: nowrap;
