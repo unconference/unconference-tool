@@ -31,7 +31,7 @@
 <script>
     $('.attendees li').each(function(i, elem){
         $(elem).attr("user-text", $(elem).text().trim());
-    }).append('<a href="javascript:void(0);">Remove</a>');
+    }).wrapInner('<span></span>').prepend('<a href="javascript:void(0);">Remove</a>');
     $('.attendees li a').click(function(e){
         parent = $(this).parent()
         if (confirm("Are you sure you want to remove:\n" + parent.attr("user-text"))) {
