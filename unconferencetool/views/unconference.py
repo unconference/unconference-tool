@@ -45,10 +45,13 @@ def attendees(unconference):
     if request.method == 'POST':
         if request.form['method'] == 'search':
             output = []
+            split_query = request.form['query'].split(' ', 1)
+            if len(split_query) == 1:
+                split_query.append(split_query[0])
             results = model.Unconference_Attendee.query \
                 .filter_by(unconference_id=unconference) \
                 .join(model.User) \
-                .filter((model.User.given_name.ilike(request.form['query'] + '%')) | (model.User.family_name.ilike(request.form['query'] + '%'))) \
+                .filter((model.User.given_name.ilike(split_query[0]+ '%')) | (model.User.family_name.ilike(split_query[1] + '%'))) \
                 .all()
             for attendee in results:
                 output.append({"id": attendee.user.id, "name": attendee.user.name, "email": attendee.user.email})
