@@ -137,8 +137,9 @@ def list():
 def bulk_sessions(unconference):
     Unconference = model.Unconference.query.get(unconference)
     sessions = model.Session.query \
-            .filter(model.Unconference.id == unconference) \
+            .filter_by(unconference_id=unconference) \
             .all()
+    print(sessions)
     if not sessions:
         rooms = ["St James A", "St James B", "Westminster A", "Westminster B", "Shelley", "Wordsworth", "Chaucer", "Keats", "Burns", "Wesley", "Moore", "Rutherford", "Byron", "Abbey"]
         sessions = ["Session 1", "Session 2", "Session 3", "Session 4", "Session 5"]
