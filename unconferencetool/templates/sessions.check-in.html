@@ -2,64 +2,63 @@
 {% block title %}Check-In{% endblock %}
 {% block body %}
 <div class="wrap">
-<h3>
-    <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> -
-    <a href="{{ url_for('unconference.locations', unconference=unconference.id, location=session.location.id) }}">{{ session.location.name }}</a> - 
-    {{ session.title }}
-</h3>
-<ul class="check-in-nav">
-    <li class="active"><a href="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}">
-        Check-In
-    </a></li>
-    <li><a href="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}">
-        Attendees
-    </a></li>
-</ul>
-<dl>
-    {%- from "_formhelper.html" import render_form %}
-    <form action="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}" method="post" name="CheckInForm" id="CheckInForm">
-        {{- render_form(form) }}
-    <dt><input type="submit" value="Check-In"></dt>
-    </form>
-</dl>
-
-<script>
-    $('#user_id').selectize({
-        valueField: 'id',
-        labelField: 'name',
-        searchField: ['name', 'email'],
-        create: false,
-        maxItems: 1,
-        placeholder: "Start typing name",
-        render: {
-            option: function(item, escape) {
-                return '<div>' +
-                    '<span class="name">' + escape(item.name) + '</span>' +
-                    '<span class="email">' + escape(item.email) + '</span>' +
-                '</div>';
-            },
-            item: function(item, escape) {
-                return '<div>' +
-                    '<span class="name">' + escape(item.name) + '</span> ' +
-                    '<span class="email">&lt;' + escape(item.email) + '&gt;</span>' +
-                '</div>';
-            }
-        },
-        load: function(query, callback) {
-            if (!query.length) return callback();
-            $.ajax({
-                url: '{{ url_for("unconference.attendees", unconference=unconference.id) }}',
-                data: {"method":"search", "query":query},
-                type: 'POST',
-                error: function() {
-                    callback();
+    <h3>
+        <a class="unconference" href="{{ url_for('unconference.index', unconference=unconference.id) }}"><img src="/static/images/one-team-logo.svg"></a>
+        <a class="location" href="{{ url_for('unconference.locations', unconference=unconference.id, location=session.location.id) }}">{{ session.location.name }}</a>
+        <span class="session">{{ session.title }}</span>
+    </h3>
+    <ul class="check-in-nav">
+        <li class="active"><a href="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}">
+            Check-In
+        </a></li>
+        <li><a href="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}">
+            Attendees
+        </a></li>
+    </ul>
+    <dl>
+        {%- from "_formhelper.html" import render_form %}
+        <form action="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}" method="post" name="CheckInForm" id="CheckInForm">
+            {{- render_form(form) }}
+        <dt><input type="submit" value="Check-In"></dt>
+        </form>
+    </dl>
+    <script>
+        $('#user_id').selectize({
+            valueField: 'id',
+            labelField: 'name',
+            searchField: ['name', 'email'],
+            create: false,
+            maxItems: 1,
+            placeholder: "Start typing name",
+            render: {
+                option: function(item, escape) {
+                    return '<div>' +
+                        '<span class="name">' + escape(item.name) + '</span>' +
+                        '<span class="email">' + escape(item.email) + '</span>' +
+                    '</div>';
                 },
-                success: function(res) {
-                    callback(res.users.slice(0, 40));
+                item: function(item, escape) {
+                    return '<div>' +
+                        '<span class="name">' + escape(item.name) + '</span> ' +
+                        '<span class="email">&lt;' + escape(item.email) + '&gt;</span>' +
+                    '</div>';
                 }
-            });
-        }
-    });
-</script>
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '{{ url_for("unconference.attendees", unconference=unconference.id) }}',
+                    data: {"method":"search", "query":query},
+                    type: 'POST',
+                    error: function() {
+                        callback();
+                    },
+                    success: function(res) {
+                        callback(res.users.slice(0, 40));
+                    }
+                });
+            }
+        });
+    </script>
 </div>
 {%- endblock %}

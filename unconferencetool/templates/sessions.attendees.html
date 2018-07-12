@@ -3,9 +3,9 @@
 {% block body %}
 <div class="wrap">
     <h3>
-        <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> - 
-        <a href="{{ url_for('unconference.locations', unconference=unconference.id, location=session.location.id) }}">{{ session.location.name }}</a> - 
-        {{ session.title }}:
+        <a class="unconference" href="{{ url_for('unconference.index', unconference=unconference.id) }}"><img src="/static/images/one-team-logo.svg"></a>
+        <a class="location" href="{{ url_for('unconference.locations', unconference=unconference.id, location=session.location.id) }}">{{ session.location.name }}</a>
+        <span class="session">{{ session.title }}</span>
     </h3>
     <ul class="check-in-nav">
         <li><a href="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}">
@@ -29,15 +29,15 @@
     {{- render_form(form) }}
 </form>
 <script>
-$('.attendees li').each(function(i, elem){
-    $(elem).attr("user-text", $(elem).text().trim());
-}).append('[<a href="javascript:void(0);">Remove</a>]');
-$('.attendees li a').click(function(e){
-    parent = $(this).parent()
-    if (confirm("Are you sure you want to remove:\n" + parent.attr("user-text"))) {
-        $("#user_id").val(parent.attr("user-id"));
-        $("#RemoveSessionAttendeeForm").submit();
-    }
-});
+    $('.attendees li').each(function(i, elem){
+        $(elem).attr("user-text", $(elem).text().trim());
+    }).append('[<a href="javascript:void(0);">Remove</a>]');
+    $('.attendees li a').click(function(e){
+        parent = $(this).parent()
+        if (confirm("Are you sure you want to remove:\n" + parent.attr("user-text"))) {
+            $("#user_id").val(parent.attr("user-id"));
+            $("#RemoveSessionAttendeeForm").submit();
+        }
+    });
 </script>
 {%- endblock %}

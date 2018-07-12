@@ -3,9 +3,9 @@
 {% block body %}
 <div class="wrap">
     <h3>
-        <a href="{{ url_for('unconference.index', unconference=unconference.id) }}">{{ unconference.name }}</a> - 
-        <a href="{{ url_for('unconference.locations', unconference=unconference.id) }}">{{ location.name}}</a> - 
-        Sessions:
+        <a class="unconference" href="{{ url_for('unconference.index', unconference=unconference.id) }}"><img src="/static/images/one-team-logo.svg"></a>
+        <a class="location" href="{{ url_for('unconference.locations', unconference=unconference.id) }}">{{ location.name }}</a>
+        <span class="title">Sessions</span>
     </h3>
     <ul>
         {% for session in location.sessions %}

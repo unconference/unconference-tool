@@ -32,5 +32,33 @@ a {
 }
 
 .wrap {
-  padding: 10px 25px;
+  //padding: 10px 25px;
+  h3 {
+    padding: 5px 10px;
+    background-color: #495c68;
+    position: relative;
+    height: 100px;
+    .unconference {
+      float: left;
+      display: inline-block;
+      padding-right: 10px;
+      img {
+        height: 100px;
+      }
+    }
+    .location {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.5em;
+      display: block;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .session {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+    }
+  }
 }
