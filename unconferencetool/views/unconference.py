@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import BooleanField, TextField, PasswordField, SelectField, HiddenField, TextAreaField, validators
 from wtforms.fields.html5 import DateField 
-import io, csv, datetime
+import io, csv, datetime, unicodedata
 
 class UnconferenceForm(FlaskForm):
     name = TextField('Name', [validators.Required(), validators.Length(min=1, max=30, message='Names must be less than 30 charachters.')])
@@ -19,35 +19,6 @@ class UnconferenceForm(FlaskForm):
     location = TextField('Location', [validators.Required(), validators.Length(min=1, max=140, message='Location must be less than 140 charachters.')])
     date = DateField('Date', [validators.Required()])
     other_info = TextAreaField('Other')
-
-class CheckInForm(FlaskForm):
-    session_id = HiddenField('Session', [validators.Required()])
-    user_id = TextField('Attendee', [validators.Required()])
-    share_details = BooleanField('I am happy for my email address to be shared with the other people in this session', [validators.Required()])
-
-    def validate(self):
-        """Validate the form."""
-        initial_validation = super(CheckInForm, self).validate()
-        if not initial_validation:
-            return False
-
-        attendee = model.Session_Attendee.query \
-            .filter_by(session_id=self.session_id.data) \
-            .filter_by(user_id=self.user_id.data) \
-            .first()
-        if attendee:
-            self.user_id.errors.append('This Attendee has already been checked-in to this session')
-            return False
-
-        attendee = model.Unconference_Attendee.query \
-            .filter_by(user_id=self.user_id.data) \
-            .filter_by(unconference_id=model.Session.query.get(self.session_id.data).unconference.id) \
-            .first()
-        if not attendee:
-            self.user_id.errors.append('Invalid Attendee')
-            return False
-
-        return True
 
 class UploadAttendeesForm(FlaskForm):
     method = HiddenField("method", default="upload")
@@ -73,6 +44,7 @@ def attendees(unconference):
             output = []
             results = model.Unconference_Attendee.query \
                 .filter_by(unconference_id=unconference) \
+                .join(model.User) \
                 .filter((model.User.given_name.ilike(request.form['query'] + '%')) | (model.User.family_name.ilike(request.form['query'] + '%'))) \
                 .all()
             for attendee in results:
@@ -85,7 +57,9 @@ def attendees(unconference):
                 try:
                     u = model.User.query.filter_by(email=row['email']).first()
                     if not u:
-                        u = model.User(row['email'], None, given_name=row['given_name'], family_name=row['family_name'])
+                        given_name = unicodedata.normalize('NFKD', row['given_name']).encode('ASCII', 'ignore')
+                        family_name = unicodedata.normalize('NFKD', row['family_name']).encode('ASCII', 'ignore')
+                        u = model.User(row['email'], None, given_name=given_name.decode('ascii'), family_name=family_name.decode('ascii'))
                     u.unconferences.append(model.Unconference_Attendee(role="ATN",unconference=Unconference))
                     model.db.session.add(u)
                 except:
@@ -97,31 +71,6 @@ def attendees(unconference):
     
     Unconference = model.Unconference.query.get(unconference)
     return render_template("unconference.attendees.html", form=form, unconference=Unconference)
-
-def check_in(unconference, session=None):
-    form = CheckInForm(request.form)
-    sessions = model.Session.query \
-        .filter_by(unconference_id=unconference) \
-        .all()
-    form.session_id.choices = [(str(g.id), g.location.name + ": " + g.title) for g in sessions]
-
-    Unconference = model.Unconference.query.get(unconference)
-
-    session_id = session
-    if session != None:
-        form.session_id.data = session
-        form.session_id.render_kw = {"disabled": True}
-        session = model.Session.query.get(session)
-
-    if request.method == "POST" and form.validate():
-        attendee = model.Session_Attendee()
-        form.populate_obj(attendee)
-        model.db.session.add(attendee)
-        model.db.session.commit()
-
-    form.user_id.data = ""
-    form.share_details.data = False
-    return render_template("check-in.html", form=form, unconference=Unconference, session=session, session_id=session_id)
 
 def list():
     form = UnconferenceForm(request.form)

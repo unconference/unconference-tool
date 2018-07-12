@@ -3,9 +3,6 @@
 {% block body %}
 <div class="wrap">
     <h3>{{ unconference.name }}:</h3>
-    [<a href="{{ url_for('unconference.check_in', unconference=unconference.id) }}">
-        Check-In
-    </a>]
     [<a href="{{ url_for('unconference.locations', unconference=unconference.id) }}">
         Locations
     </a>]

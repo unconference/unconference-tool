@@ -8,7 +8,7 @@
         {{ session.title }}:
     </h3>
     <ul class="check-in-nav">
-        <li><a href="{{ url_for('unconference.check_in', unconference=unconference.id, session=session.id) }}">
+        <li><a href="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}">
             Check-In
         </a></li>
         <li class="active"><a href="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}">

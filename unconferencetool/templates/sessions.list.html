@@ -7,7 +7,7 @@
         {% for session in unconference.sessions %}
         <li>
             {{ session.location.name }}: {{ session.title }}
-            [<a href="{{ url_for('unconference.check_in', unconference=unconference.id, session=session.id) }}">
+            [<a href="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}">
                 Check-In
             </a>]
             [<a href="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}">
