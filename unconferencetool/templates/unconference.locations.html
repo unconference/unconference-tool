@@ -7,7 +7,7 @@
         <span class="title">Select Location</span>
     </h3>
     <ul class="locations">
-        {% for location in unconference.locations %}
+        {% for location in unconference.locations|sort(attribute='name') %}
         <li>
             <a href="{{ url_for('unconference.locations', unconference=unconference.id, location=location.id) }}">
                 {{location.name}}
