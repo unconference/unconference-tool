@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block body %}
+        <div class="wrap">
+            <h1>Login</h1>
+            {%- from "_formhelper.html" import render_form %}
+            <form action="{{ url_for('index.hello') }}" method="post" name="RegisterForm" id="RegisterForm">
+                <dl>
+                    {{- render_form(form) }}
+                    <dl><input type="submit" value="Register"></dl>
+                </dl>
+            </form>
+        </div>
+{%- endblock %}

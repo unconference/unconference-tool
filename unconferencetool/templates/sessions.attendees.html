@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Session Attendees{% endblock %}
+{% block body %}
+<div class="wrap">
+    <h3>
+        <a class="unconference" href="{{ url_for('unconference.index', unconference=unconference.id) }}"><img src="/static/images/one-team-logo.svg"></a>
+        <a class="location" href="{{ url_for('unconference.locations', unconference=unconference.id) }}">{{ session.location.name }}</a>
+        <a class="session" href="{{ url_for('unconference.locations', unconference=unconference.id, location=session.location.id) }}">{{ session.title }}</a>
+    </h3>
+    <ul class="check-in-nav">
+        <li><a href="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}">
+            Check-In
+        </a></li>
+        <li class="active"><a href="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}">
+            Attendees
+        </a></li>
+    </ul>
+    <ol class="attendees">
+        {%- for attendee in session.attendees|sort(attribute='user.given_name') %}
+        <li user-id="{{ attendee.user.id }}">
+            {{ attendee.user.name }} &lt;{{ attendee.user.email}}&gt;
+        </li>
+        {%- endfor %}
+    </ol>
+</div>
+
+{%- from "_formhelper.html" import render_form %}
+<form action="{{ url_for('sessions.attendees', unconference=unconference.id, session=session.id) }}" method="post" name="RemoveSessionAttendeeForm" id="RemoveSessionAttendeeForm">
+    {{- render_form(form) }}
+</form>
+<script>
+    $('.attendees li').each(function(i, elem){
+        $(elem).attr("user-text", $(elem).text().trim());
+    }).wrapInner('<span></span>').prepend('<a href="javascript:void(0);">Remove</a>');
+    $('.attendees li a').click(function(e){
+        parent = $(this).parent()
+        if (confirm("Are you sure you want to remove:\n" + parent.attr("user-text"))) {
+            $("#user_id").val(parent.attr("user-id"));
+            $("#RemoveSessionAttendeeForm").submit();
+        }
+    });
+</script>
+{%- endblock %}

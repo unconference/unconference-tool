@@ -4,12 +4,9 @@
 import pytest
 from webtest import TestApp
 
-from unconferencetool.app import create_app
-from unconferencetool.database import db as _db
-from unconferencetool.settings import TestConfig
-
-from .factories import UserFactory
-
+from unconferencetool import create_app
+from unconferencetool.model import db as _db
+from unconferencetool.config import TestConfig
 
 @pytest.fixture
 def app():
@@ -41,11 +38,3 @@ def db(app):
     # Explicitly close DB connection
     _db.session.close()
     _db.drop_all()
-
-
-@pytest.fixture
-def user(db):
-    """A user for the tests."""
-    user = UserFactory(password='myprecious')
-    db.session.commit()
-    return user

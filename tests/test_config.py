@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 """Test configs."""
-from unconferencetool.app import create_app
-from unconferencetool.settings import DevConfig, ProdConfig
+from unconferencetool import create_app
+from unconferencetool.config import DevelopmentConfig, ProductionConfig
 
 
 def test_production_config():
     """Production config."""
-    app = create_app(ProdConfig)
-    assert app.config['ENV'] == 'prod'
+    app = create_app(ProductionConfig)
     assert app.config['DEBUG'] is False
-    assert app.config['DEBUG_TB_ENABLED'] is False
 
 
 def test_dev_config():
     """Development config."""
-    app = create_app(DevConfig)
-    assert app.config['ENV'] == 'dev'
+    app = create_app(DevelopmentConfig)
     assert app.config['DEBUG'] is True
+    assert app.config['ASSETS_CACHE'] is False

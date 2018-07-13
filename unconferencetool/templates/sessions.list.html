@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}Sessions{% endblock %}
+{% block body %}
+<div class="wrap">
+    <h3>
+        <a class="unconference" href="{{ url_for('unconference.index', unconference=unconference.id) }}"><img src="/static/images/one-team-logo.svg"></a>
+        <span class="title">Sessions</span>
+    </h3>
+    <ul>
+        {% for location in unconference.locations %}
+        <li>{{ location.name }}
+            <ul>
+                {% for session in location.sessions %}
+                <li>
+                    <a href="{{ url_for('sessions.check_in', unconference=unconference.id, session=session.id) }}">
+                        {{ session.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+    <h4>Bulk Add Sessions</h4>
+    [<a href="{{ url_for('unconference.bulk_sessions', unconference=unconference.id) }}">
+        Add Sessions
+    </a>]
+</div>
+{%- endblock %}

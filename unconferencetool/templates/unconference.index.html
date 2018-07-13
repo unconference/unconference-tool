@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %}Unconference{% endblock %}
+{% block body %}
+<div class="wrap">
+    <h3><img src="/static/images/one-team-logo.svg"></h3>
+    <div class="index">
+        <a class="btn btn-info" href="{{ url_for('unconference.locations', unconference=unconference.id) }}">
+            Start Check-in
+        </a>
+    
+        <div>
+            [<a href="{{ url_for('unconference.locations', unconference=unconference.id) }}">
+                Locations
+            </a>]
+            [<a href="{{ url_for('sessions.list', unconference=unconference.id) }}">
+                Sessions
+            </a>]
+            [<a href="{{ url_for('unconference.attendees', unconference=unconference.id) }}">
+                Attendees
+            </a>]
+        </div>
+    </div>
+</div>
+{%- endblock %}

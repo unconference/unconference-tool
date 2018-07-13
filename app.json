@@ -1,0 +1,22 @@
+{
+    "name": "Unconference Tool",
+    "description": "A cool tool for helping to run unconferences",
+    "website": "https://github.com/unconference/unconference-tool",
+    "repository": "https://github.com/unconference/unconference-tool",
+    "addons": [
+        {
+            "plan": "heroku-postgresql:hobby-dev"
+        }
+    ],
+    "buildpacks": [
+        {
+            "url": "heroku/python"
+        }
+    ],
+    "env": {
+        "FLASK_SECRET_KEY": {
+            "description": "A secret key for verifying the integrity of signed cookies.",
+            "generator": "secret"
+        }
+    }
+}
