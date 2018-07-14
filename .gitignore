@@ -1,11 +1,24 @@
+# Cache Files
 *.py[cod]
 __pycache__
-webassets-external
 .webassets-cache
 .sass-cache
 .pytest_cache
+
+# Editor Files
 .vscode
+
+# Environment files
 .env
-pip-log.txt
 env
+
+# Log Files
+pip-log.txt
+
+# Database Files
 dev.db
+
+# Automatically-built Assets
+packed.js
+style.css
+webassets-external
