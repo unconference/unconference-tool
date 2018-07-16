@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from flask import render_template, request, jsonify, redirect, url_for, abort
+from flask import render_template, request, jsonify, redirect, url_for, abort, stream_with_context, Response
 import unconferencetool.model as model
 
 from flask_wtf import FlaskForm
 from wtforms import HiddenField, TextField, BooleanField, validators
+
+import csv
 
 class CheckInForm(FlaskForm):
     session_id = HiddenField('Session', [validators.Required()])
@@ -107,3 +109,27 @@ def attendees(unconference, session):
         return redirect(url_for('sessions.attendees', unconference=unconference, session=session), code=303)
 
     return render_template("sessions.attendees.html", unconference=Unconference, session=Session, form=form)
+
+class Line(object):
+    def __init__(self):
+        self._line = None
+    def write(self, line):
+        self._line = line
+    def read(self):
+        return self._line
+
+def export(unconference):
+    def generate():
+        line = Line()
+        writer = csv.writer(line)
+        writer.writerow(["location", "session", "name", "email"])
+        yield line.read()
+        Unconference = model.Unconference.query.get(unconference)
+        for session in Unconference.sessions:
+            for attendee in session.attendees:
+                writer.writerow([session.location.name, session.title, attendee.user.name, attendee.user.email])
+                yield line.read()
+
+    response = Response(stream_with_context(generate()), mimetype='text/csv')
+    response.headers['Content-Disposition'] = 'attachment; filename=attendee_export.csv'
+    return response

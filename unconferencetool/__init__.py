@@ -41,13 +41,14 @@ def create_app(config_object=False):
         app.add_url_rule(url_rule, import_name, view_func=view, **options)
 
     route_url('/', 'index.hello', methods=['GET','POST'])
-    route_url('/unconferences', 'unconference.list', methods=['GET','POST'])
-    route_url('/unconferences/<unconference>', 'unconference.index', methods=['GET'])
+    route_url('/unconferences/', 'unconference.list', methods=['GET','POST'])
+    route_url('/unconferences/<unconference>/', 'unconference.index', methods=['GET'])
     route_url('/unconferences/<unconference>/attendees', 'unconference.attendees', methods=['GET','POST'])
-    route_url('/unconferences/<unconference>/locations', 'unconference.locations', methods=['GET'])
+    route_url('/unconferences/<unconference>/locations/', 'unconference.locations', methods=['GET'])
     route_url('/unconferences/<unconference>/locations/<location>', 'unconference.locations', methods=['GET'])
     route_url('/unconferences/<unconference>/bulk-sessions', 'unconference.bulk_sessions', methods=['GET'])
-    route_url('/unconferences/<unconference>/sessions', 'sessions.list', methods=['GET'])
+    route_url('/unconferences/<unconference>/sessions/', 'sessions.list', methods=['GET'])
+    route_url('/unconferences/<unconference>/sessions/export_csv', 'sessions.export', methods=['GET'])
     route_url('/unconferences/<unconference>/sessions/<session>/attendees', 'sessions.attendees', methods=['GET','POST'])
     route_url('/unconferences/<unconference>/sessions/<session>/check-in', 'sessions.check_in', methods=['GET','POST'])
 
